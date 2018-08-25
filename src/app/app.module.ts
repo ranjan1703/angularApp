@@ -10,15 +10,19 @@ import { MatListModule } from '@angular/material/list';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
 import  'hammerjs';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
+import { DishService } from './services/dish.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent, //root component
-    MenuComponent, DishdetailComponent //child component 
+    MenuComponent, DishdetailComponent, HeaderComponent, FooterComponent //child component 
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,7 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component';
     MatButtonModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [DishService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
