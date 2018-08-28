@@ -19,7 +19,7 @@ fxLayoutGap="10px"><!-- from top component  10 px gap -->
 </mat-list> -->
 
 <!-- Grid view  -->
-<div fxFlex>
+<div fxFlex *ngIf="dishes">
 <mat-grid-list cols="2" rowHeight="200px">
     <!-- its like <li> tag of html -->
   <mat-grid-tile *ngFor ="let dish of dishes" [routerLink]="['/dishdetail', dish.id]">
@@ -29,6 +29,9 @@ fxLayoutGap="10px"><!-- from top component  10 px gap -->
     </mat-grid-tile-footer>
 </mat-grid-tile>
   </mat-grid-list>
+  
 </div>
-
+<div [hidden]="dishes">
+  <mat-spinner></mat-spinner><h4>Loading....</h4>
+</div>
 </div>

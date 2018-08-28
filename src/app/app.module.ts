@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
@@ -42,6 +43,7 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
@@ -59,6 +61,7 @@ import { LoginComponent } from './login/login.component';
   ],
   exports: [
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
   ],
   providers: [DishService, PromotionService, LeaderService],
   entryComponents:[
