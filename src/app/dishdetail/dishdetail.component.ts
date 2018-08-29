@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { Params, ActivatedRoute} from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class DishdetailComponent implements OnInit {
     next: number;
 
 
-  constructor(private dishservice:DishService, private route:ActivatedRoute, private location:Location) { }
+  constructor(private dishservice:DishService, private route:ActivatedRoute, private location:Location, @Inject('BaseURL') private BaseURL) { }
 
   ngOnInit() {
     this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);

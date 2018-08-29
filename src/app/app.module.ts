@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+import { baseURL } from './shared/baseurl';
+import{ ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material';
@@ -16,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -42,6 +46,7 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatListModule,
@@ -63,7 +68,7 @@ import { LoginComponent } from './login/login.component';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
   ],
-  providers: [DishService, PromotionService, LeaderService],
+  providers: [DishService, PromotionService, LeaderService, {provide: 'BaseURL',useValue: baseURL}, ProcessHTTPMsgService],
   entryComponents:[
     LoginComponent
   ],

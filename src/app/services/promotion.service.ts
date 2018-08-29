@@ -1,24 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Promotion } from '../shared/promotion';
-import { PROMOTIONS } from '../shared/promotions';
-import { delay } from 'rxjs/operators';
-import { Observable ,of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { baseURL } from '../shared/baseurl';
+import { map } from 'rxjs/operators';
+
+import { Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromotionService {
 
-  constructor() { }
-  getPromotions(): Observable<Promotion[]>{
-   return of(PROMOTIONS).pipe(delay(2000));
+  constructor(private http: HttpClient) { }
+  
+  
+  
+  getPromotions(): Observable<Promotion>{
+   return this.http.get<Promotion>(baseURL + 'promotions');
    }
-  getPromotion(id: number): Observable<Promotion>{
-    return of(PROMOTIONS.filter((promo) => (promo.id===id))[0]).pipe(delay(2000));
+  getPromotion(): Observable<number[] | any>{
+    return this.getPromotion().pipe(map(promotions=>promotions.map(promotion=>promotion.id)));
    }
   getFeaturedPromotion(): Observable<Promotion> {
-    return of(PROMOTIONS.filter((promotion) => promotion.featured)[0]).pipe(delay(2000));
+    return this.http.get<Promotion[]>(baseURL + 'promotions?featured=true').pipe(map(promotions =>promotions[0]));
   
     }
 }
-
