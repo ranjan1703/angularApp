@@ -19,7 +19,7 @@ fxLayoutGap="10px"><!-- from top component  10 px gap -->
 </mat-list> -->
 
 <!-- Grid view  -->
-<div fxFlex *ngIf="dishes">
+<div fxFlex *ngIf="dishes" [@expand]>
 <mat-grid-list cols="2" rowHeight="200px">
     <!-- its like <li> tag of html -->
   <mat-grid-tile *ngFor ="let dish of dishes" [routerLink]="['/dishdetail', dish.id]" appHighlight>
