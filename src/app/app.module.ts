@@ -5,7 +5,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { baseURL } from './shared/baseurl';
 import{ ProcessHTTPMsgService } from './services/process-httpmsg.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import{MatSliderModule} from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
@@ -38,6 +39,10 @@ import { PromotionService } from './services/promotion.service';
 import{ LeaderService } from './services/leader.service';
 import {AppRoutingModule } from './app-routing/app-routing.module';
 import { LoginComponent } from './login/login.component';
+
+
+import { RestangularModule, Restangular } from 'ngx-restangular';
+import { RestangularConfigFactory } from './shared/restConfig';
 @NgModule({
   declarations: [
     AppComponent, //root component
@@ -49,6 +54,7 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
+    MatSliderModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
@@ -62,11 +68,14 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     MatSelectModule,
     MatSlideToggleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
+    RestangularModule.forRoot(RestangularConfigFactory)
   ],
   exports: [
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    MatSliderModule
   ],
   providers: [DishService, PromotionService, LeaderService, {provide: 'BaseURL',useValue: baseURL}, ProcessHTTPMsgService],
   entryComponents:[

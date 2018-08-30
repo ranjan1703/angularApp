@@ -5,7 +5,9 @@ import { baseURL } from '../shared/baseurl';
 
 import { Observable} from 'rxjs';
 
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { ProcessHTTPMsgService } from './process-httpmsg.service';
+import  { Restangular } from 'ngx-restangular';
 
 
 
@@ -14,24 +16,27 @@ import { map } from 'rxjs/operators';
 })
 export class DishService {
 
-  constructor( private http: HttpClient) {}
+  constructor( private restangular : Restangular, private processHTTPMsgService: ProcessHTTPMsgService) {}
  
   getDishes():Observable<Dish[]>{
-  return this.http.get<Dish[]>(baseURL + 'dishes');
+  return this.restangular.all('dishes').getList();
   
   }
 
   getDish(id: number): Observable<Dish>{
    
       //Simulate server latency with 2 sec delay
-      return this.http.get<Dish>(baseURL + 'dishes/' +id);
+      return this.restangular.one('dishes' , id).get();
     
   }
   getFeaturedDish(): Observable<Dish> {
-    return this.http.get<Dish[]>(baseURL + 'dishes?featured=true').pipe(map(dishes => dishes[0]));
+    return this.restangular.all('dishes').getList({featured: true})
+    .pipe(map(dishes => dishes[0]));
   }
 
   getDishIds(): Observable<number[] | any> {
-    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)));
+    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id)))
+    .pipe(catchError(error=>error));
+    
   }
 }
