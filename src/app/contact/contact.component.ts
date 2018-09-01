@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import{flyInOut} from '../animations/app.animation';
-
+import { FeedbackService } from '../services/feedback.service';
+import{flyInOut, visibility, hide, expand} from '../animations/app.animation';
+import {visitSiblingRenderNodes} from "@angular/core/src/view/util";
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -12,13 +13,18 @@ import{flyInOut} from '../animations/app.animation';
     'style': 'display: block;'
     },
     animations: [
-      flyInOut()
+      flyInOut(),
+      visibility(),
+      hide(),
+      expand()
     ]
 })
 export class ContactComponent implements OnInit {
   @ViewChild('fform') feedbackFormDirective;
   feedbackForm: FormGroup;
-  feedback:Feedback;
+  feedback: Feedback;
+  visibilityForm = 'shown';
+  visibilitySpinner = 'hidden';
   contactType= ContactType;
 
   formErrors={
@@ -48,7 +54,7 @@ export class ContactComponent implements OnInit {
   'email':         'Email not in valid format.'
 },
   };
-  constructor( private fb: FormBuilder) {
+  constructor( private fb: FormBuilder, private feedBackService: FeedbackService) {
     this.createForm();
    }
 
@@ -92,9 +98,21 @@ this.onValueChanged(); // (re)set validation messages now
       }
     }
   }
-onSubmit() {
-  this.feedback = this.feedbackForm.value;
-  console.log(this.feedback);
+
+  onSubmit() {
+    this.visibilityForm = 'hidden';
+    this.visibilitySpinner = 'shown';
+    this.feedBackService.submitFeedback(this.feedbackForm.value)
+      .subscribe(feedback => {
+        this.visibilitySpinner = 'hidden';
+        this.feedback = feedback;
+         setTimeout(func =>{
+          this.feedback = null;
+          this.visibilityForm = 'shown';
+          }, 5000); 
+
+      });
+  
   this.feedbackForm.reset({
     firstname: '',
     lastname:'',
@@ -105,6 +123,7 @@ onSubmit() {
     message: ''
 
   });
+
   this.feedbackFormDirective.resetForm();
 }
 }
